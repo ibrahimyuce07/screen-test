@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  //  SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Screen Test',
@@ -39,14 +38,12 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  Color _colorContainer = Colors.red;
-  String _titleState = 'random';
-  bool _fullscreen = true;
+  late bool _fullscreen = true;
 
   @override
   void initState() {
     super.initState();
-
+    _fullscreen = true;
     // Start full screen
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
@@ -54,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
-  //background image
         decoration: BoxDecoration(
           color: Color(0xFFCCCC99 ),
         ),
@@ -68,16 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
-                onTap: () {
+                onDoubleTap: () {
                   setState(() {
-                   if(!_fullscreen){
-
-                     SystemChrome.setEnabledSystemUIOverlays([]);
-                     _fullscreen = true;
-                   }else{
-
+                   if(_fullscreen){
                      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
                      _fullscreen = false;
+                   }else{
+                     SystemChrome.setEnabledSystemUIOverlays([]);
+                     _fullscreen = true;
                    }
                   });
                 },
@@ -128,11 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                     ),
 
-                    // subtitle: Text(
-                    //   'Check dead pixels, light bleeding, scratches, etc.',
-                    //   //text opacity: 0.5,
-                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    // ),
                     trailing: Icon(
                       Icons.color_lens,
                      color: Color(0xFFCCCC99 ),
@@ -250,10 +240,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             GestureDetector(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ColorPickerPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ColorPickerPage()),
+                );
               },
               child: Container(
                 margin: EdgeInsets.all(6),
@@ -298,56 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => MovementPage()),
-                // );
-              },
-              child: Container(
-                margin: EdgeInsets.all(6),
-                height: 75,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Color(0xff22385F),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black38,
-                      blurRadius: 0.5,
-                      spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
-                    )
-                  ],
-                ),
-                child: ListTile(
-                  title: Center(
-                    child: Text(
-                      'Movement Test',
-                      style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 1,
-                            color: Colors.white,
-                            //color: Color(0xFFfacf5a),
-                          ),
-                        ],
-                      ),                  ),
-                  ),
-                  // subtitle: Text(
-                  //   'Pick a color to display',
-                  //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                  // ),
-                  trailing: Icon(
-                    CupertinoIcons.tortoise_fill,
-                    color: Color(0xFFCCCC99 ),
-                    size: 40,
-                  ),
-                  tileColor: Color(0xFFF5F5F5),
-                  dense: false,
-                ),
-              ),
-            ),
+
             GestureDetector(
               onTap: () {
                 // Navigator.push(
@@ -454,14 +395,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             //footer text
             SizedBox(
-              height: 30,
+              height: 100,
             ),
 
             new Column(
               children: <Widget>[
                 new Container(
                   child: new Text(
-                    'Made with ❤ footer text',
+                    'yucedev',
                     style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.white38, fontWeight: FontWeight.w600,
                       shadows: [
                         Shadow(
@@ -476,14 +417,6 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-
-
-
-
-
-
-        ////
-
       ),
     );
   }
@@ -495,72 +428,72 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void navigateToHome(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MyApp()),
-    );
-  }
+  // void navigateToHome(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => MyApp()),
+  //   );
+  // }
 
-  void setBlackAndWhite() {
-    _titleState = 'bw';
-    List<Color> colors = [Colors.black, Colors.white];
-    setState(() {
-      if (_colorContainer == colors[0]) {
-        _colorContainer = colors[1];
-      } else {
-        _colorContainer = colors[0];
-      }
-    });
-  }
+  // void setBlackAndWhite() {
+  //   _titleState = 'bw';
+  //   List<Color> colors = [Colors.black, Colors.white];
+  //   setState(() {
+  //     if (_colorContainer == colors[0]) {
+  //       _colorContainer = colors[1];
+  //     } else {
+  //       _colorContainer = colors[0];
+  //     }
+  //   });
+  // }
 
-  void setPrimaryColors() {
-    _titleState = 'primary';
-    List<Color> primaryColors = [
-      Colors.red,
-      Colors.green,
-      Colors.blue,
-      Colors.black,
-      Colors.white
-    ];
-    setState(() {
-      if (_colorContainer == primaryColors[0]) {
-        _colorContainer = primaryColors[1];
-      } else if (_colorContainer == primaryColors[1]) {
-        _colorContainer = primaryColors[2];
-      } else if (_colorContainer == primaryColors[2]) {
-        _colorContainer = primaryColors[3];
-      } else if (_colorContainer == primaryColors[3]) {
-        _colorContainer = primaryColors[4];
-      } else {
-        _colorContainer = primaryColors[0];
-      }
-    });
-  }
+  // void setPrimaryColors() {
+  //   _titleState = 'primary';
+  //   List<Color> primaryColors = [
+  //     Colors.red,
+  //     Colors.green,
+  //     Colors.blue,
+  //     Colors.black,
+  //     Colors.white
+  //   ];
+  //   setState(() {
+  //     if (_colorContainer == primaryColors[0]) {
+  //       _colorContainer = primaryColors[1];
+  //     } else if (_colorContainer == primaryColors[1]) {
+  //       _colorContainer = primaryColors[2];
+  //     } else if (_colorContainer == primaryColors[2]) {
+  //       _colorContainer = primaryColors[3];
+  //     } else if (_colorContainer == primaryColors[3]) {
+  //       _colorContainer = primaryColors[4];
+  //     } else {
+  //       _colorContainer = primaryColors[0];
+  //     }
+  //   });
+  // }
 
-  void setRandomColor() {
-    _titleState = 'random';
-    setState(() {
-      _colorContainer = Color.fromARGB(255, Random().nextInt(255),
-          Random().nextInt(255), Random().nextInt(255));
-    });
-  }
+  // void setRandomColor() {
+  //   _titleState = 'random';
+  //   setState(() {
+  //     _colorContainer = Color.fromARGB(255, Random().nextInt(255),
+  //         Random().nextInt(255), Random().nextInt(255));
+  //   });
+  // }
 
-  void titleStateSelector() {
-    switch (_titleState) {
-      case 'random':
-        setRandomColor();
-        break;
-      case 'primary':
-        setPrimaryColors();
-        break;
-      case 'bw':
-        setBlackAndWhite();
-        break;
-      default:
-        setRandomColor();
-    }
-  }
+  // void titleStateSelector() {
+  //   switch (_titleState) {
+  //     case 'random':
+  //       setRandomColor();
+  //       break;
+  //     case 'primary':
+  //       setPrimaryColors();
+  //       break;
+  //     case 'bw':
+  //       setBlackAndWhite();
+  //       break;
+  //     default:
+  //       setRandomColor();
+  //   }
+  // }
 
   void navigateToGradient(BuildContext context) {
     Navigator.push(

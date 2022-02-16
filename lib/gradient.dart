@@ -1,15 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_tester/main.dart';
 
-import 'about.dart';
 
 class GradientPage extends StatelessWidget {
 
-  var _count = 0;
   @override
   Widget build(BuildContext context)
   {
@@ -31,7 +28,21 @@ class MyGradientPage extends StatefulWidget {
 class _MyGradientPageState extends State<MyGradientPage> {
   var _color1 = Colors.red;
   var _color2 = Colors.blue;
-  bool _fullscreen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start full screen
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Stop full screen
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +52,17 @@ class _MyGradientPageState extends State<MyGradientPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: new InkWell(
+              child: new GestureDetector(
                 onTap: () {
                   changeGradient();
                 },
-                onLongPress: () {
-                  //navigate to myapp
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyApp()),
-                  );
+                onPanUpdate: (details) {
+                  if (details.delta.dx > 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -75,35 +87,9 @@ class _MyGradientPageState extends State<MyGradientPage> {
 
   void changeGradient() {
     setState(() {
-      //_color1 = random MaterialColor
       _color1 = Colors.primaries[Random().nextInt(Colors.primaries.length)];
-      //_color2 = random MaterialColor
       _color2 = Colors.primaries[Random().nextInt(Colors.primaries.length)];
     });
   }
 
-  void navigateToAbout(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AboutPage()),
-    );
-  }
-
-  void navigateToGradient(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => GradientPage()),
-    );
-  }
-
-  void navigateToHome(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MyApp()),
-    );
-  }
-
-  void navigateToColorPicker(BuildContext context) {}
-
-  void navigateToSMPTE(BuildContext context) {}
 }

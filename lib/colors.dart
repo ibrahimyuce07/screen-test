@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:screen_tester/smpte.dart';
 
 import 'about.dart';
@@ -23,7 +24,6 @@ class ColorsPage extends StatelessWidget {
 }
 
 class MyColorsPage extends StatefulWidget {
-
   @override
   _MyColorsPageState createState() => _MyColorsPageState();
 }
@@ -31,86 +31,102 @@ class MyColorsPage extends StatefulWidget {
 class _MyColorsPageState extends State<MyColorsPage> {
   Color _colorContainer = Colors.red;
   String _titleState = 'random';
-  bool _fullscreen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
+      drawer: Container(
+           width: MediaQuery.of(context).size.width * 0.6,
+        child: Drawer(
 
-        child: Container(
-          color: _colorContainer.withOpacity(0.5),
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                title: Text('Home'),
-                onTap: () {
-                  navigateToHome(context);
-                },
-              ),
-              ListTile(
-                title: Text('Random Colors'),
-                onTap: () {
-                  // navigateToHome(context);
-                  setRandomColor();
-                },
-              ),
-              ListTile(
-                title: Text('Primary Colors'),
-                onTap: () {
-                  // navigateToHome(context);
-                  setPrimaryColors();
-                },
-              ),
-              ListTile(
-                title: Text('Black and White'),
-                onTap: () {
-                  // navigateToHome(context);
-                  setBlackAndWhite();
-                },
-              ),
-              ListTile(
-                title: Text('Gradient'),
-                onTap: () {
-                  setState(() {
-                    navigateToGradient(context);
-                  });
-                },
-              ),
-              ListTile(
-                title: Text('Pick a Color'),
-                onTap: () {
-                  navigateToColorPicker(context);
-                },
-              ),
-              ListTile(
-                title: Text('SMPTE color bars'),
-                onTap: () {
-                  navigateToSMPTE(context);
-                },
-              ),
-              ListTile(
-                title: Text('About'),
-                onTap: () {
-                  navigateToAbout(context);
-                },
-              ),
-              ListTile(
-                title: Text('Fullscreen'),
-                onTap: () {
-                  setState(() {
-                    if (_fullscreen) {
-                      SystemChrome.setEnabledSystemUIOverlays([]);
-                      _fullscreen = false;
-                    } else {
-                      SystemChrome.setEnabledSystemUIOverlays(
-                          SystemUiOverlay.values);
-                      _fullscreen = true;
-                    }
-                  });
-                },
-              ),
-            ],
+          child: Container(
+            color: _colorContainer.withOpacity(0.7),
+            child: ListView(
+              children: <Widget>[
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
+                        SizedBox(width: 10,),
+                        Text('Random',
+                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
+                      ],
+                    ),
+                    onTap: () {
+                      setRandomColor();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
+                        SizedBox(width: 10,),
+                        Text('RGB',
+                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
+                      ],
+                    ),
+                    onTap: () {
+                      setPrimaryColors();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
+                        SizedBox(width: 10,),
+                        Text('Black & White',
+                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
+                      ],
+                    ),
+                    onTap: () {
+                      setBlackAndWhite();
+                    },
+                  ),
+                ),
+                SizedBox(height: 440,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.keyboard_return_rounded, color: Colors.black,size: 28,),
+                        SizedBox(width: 10,),
+                        Text('Return',
+                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
+                      ],
+                    ),
+                    onTap: () {
+                      navigateToHome(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -123,9 +139,6 @@ class _MyColorsPageState extends State<MyColorsPage> {
                 onTap: () {
                   titleStateSelector();
                 },
-                onLongPress: () {
-                  navigateToHome(context);
-                },
                 child: Container(
                   color: _colorContainer,
                 ),
@@ -134,13 +147,6 @@ class _MyColorsPageState extends State<MyColorsPage> {
           ],
         ),
       ),
-    );
-  }
-
-  void navigateToAbout(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AboutPage()),
     );
   }
 
@@ -169,18 +175,12 @@ class _MyColorsPageState extends State<MyColorsPage> {
       Colors.red,
       Colors.green,
       Colors.blue,
-      Colors.black,
-      Colors.white
     ];
     setState(() {
       if (_colorContainer == primaryColors[0]) {
         _colorContainer = primaryColors[1];
       } else if (_colorContainer == primaryColors[1]) {
         _colorContainer = primaryColors[2];
-      } else if (_colorContainer == primaryColors[2]) {
-        _colorContainer = primaryColors[3];
-      } else if (_colorContainer == primaryColors[3]) {
-        _colorContainer = primaryColors[4];
       } else {
         _colorContainer = primaryColors[0];
       }
@@ -211,20 +211,4 @@ class _MyColorsPageState extends State<MyColorsPage> {
     }
   }
 
-  void navigateToGradient(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => GradientPage()),
-    );
-  }
-
-  void navigateToColorPicker(BuildContext context) {}
-
-  void navigateToSMPTE(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SMPTEPage()),
-    );
-  }
 }
-
