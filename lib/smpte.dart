@@ -28,7 +28,7 @@ class _MySMPTEPageState extends State<MySMPTEPage> {
     return Container(
       //add svg image
         child: GestureDetector(
-          onDoubleTap: () {
+          onLongPress: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyApp()),

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
+  //  SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Screen Test',
@@ -35,91 +36,106 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+
+
 class _MyHomePageState extends State<MyHomePage> {
   Color _colorContainer = Colors.red;
   String _titleState = 'random';
-  bool _fullscreen = false;
+  bool _fullscreen = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start full screen
+    SystemChrome.setEnabledSystemUIOverlays([]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.red,
-                Colors.blue,
-                Colors.green
-                ]
-                    ),
-              ),
-        /////
+  //background image
+        decoration: BoxDecoration(
+          color: Color(0xFFCCCC99 ),
+        ),
 
         child: ListView(
-          padding: EdgeInsets.zero,
           scrollDirection: Axis.vertical,
+          shrinkWrap: false,
           children: [
-            //title text 'Screen Test'
-            Center(
-              child: Container(
-                padding: EdgeInsets.only(top: 50),
-                child: Text(
-                  'Display Test',
-                  style: GoogleFonts.ubuntu(
-                    fontSize: 50,
-                    color: Colors.amber,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10,
-                        color: Colors.black45,
-                        offset: Offset(5, 5),
-                      ),
-                    ],
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ColorsPage()),
-                  );
+                  setState(() {
+                   if(!_fullscreen){
+
+                     SystemChrome.setEnabledSystemUIOverlays([]);
+                     _fullscreen = true;
+                   }else{
+
+                     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+                     _fullscreen = false;
+                   }
+                  });
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.redAccent.withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
-                        ],
-                      ),
+                child: Icon(Icons.fullscreen, size: 45, color: Color(0xff22385F),)),
+          ],
+        ),
+
+            SizedBox(height: 15),
 
 
 
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ColorsPage()),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: Center(
                   child: ListTile(
-                    title: Text(
-                      'Test Colors',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
+                    title: Center(
+                      child: Text(
+                        'Solid Colors',
+                        style: GoogleFonts.ubuntu(fontSize: 26,  color: Color(0xFFCCCC99), fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1,
+                              color: Colors.white,
+                              //color: Color(0xFFfacf5a),
+                            ),
+                          ],
+                        ),
+                        ),
                     ),
-                    subtitle: Text(
-                      'Check dead pixels, light bleeding, scratches, etc.',
-                      //text opacity: 0.5,
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
+
+                    // subtitle: Text(
+                    //   'Check dead pixels, light bleeding, scratches, etc.',
+                    //   //text opacity: 0.5,
+                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                    // ),
                     trailing: Icon(
                       Icons.color_lens,
-                      color: Color(0xFF303030),
+                     color: Color(0xFFCCCC99 ),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -128,37 +144,50 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GradientPage()),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.orangeAccent.withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
-                        ],
-                      ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GradientPage()),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: Center(
                   child: ListTile(
-                    title: Text(
-                      'Gradient Colors',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
+                    title: Center(
+                      child: Text(
+                        'Gradient Colors',
+                        style: GoogleFonts.ubuntu(fontSize: 25,  color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1,
+                              color: Colors.white,
+                              //color: Color(0xFFfacf5a),
+                            ),
+                          ],
+                        ),                  ),
                     ),
-                    subtitle: Text(
-                      'Generate random gradient color',
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
+                    // subtitle: Text(
+                    //   'Generate random gradient color',
+                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                    // ),
                     trailing: Icon(
                       Icons.gradient,
-                      color: Color(0xFF303030),
+                      color: Color(0xFFCCCC99 ),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -167,37 +196,50 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SMPTEPage()),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.yellowAccent.withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
-                        ],
-                      ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SMPTEPage()),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: Center(
                   child: ListTile(
-                    title: Text(
-                      'SMPTE Color Bars',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
+                    title: Center(
+                      child: Text(
+                        'SMPTE Color Bars',
+                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1,
+                              color: Colors.white,
+                              //color: Color(0xFFfacf5a),
+                            ),
+                          ],
+                        ),                 ),
                     ),
-                    subtitle: Text(
-                      'Display SMPTE pattern',
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
+                    // subtitle: Text(
+                    //   'Display SMPTE pattern',
+                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                    // ),
                     trailing: Icon(
                       Icons.graphic_eq,
-                      color: Color(0xFF303030),
+                      color: Color(0xFFCCCC99 ),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -206,115 +248,150 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => ColorPickerPage()),
-                  // );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.green.withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
-                        ],
-                      ),
-                  child: ListTile(
-                    title: Text(
+            GestureDetector(
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ColorPickerPage()),
+                // );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: ListTile(
+                  title: Center(
+                    child: Text(
                       'Color Picker',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Text(
-                      'Pick a color to display',
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
-                    trailing: Icon(
-                      Icons.colorize,
-                      color: Color(0xFF303030),
-                      size: 40,
-                    ),
-                    tileColor: Color(0xFFF5F5F5),
-                    dense: false,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => HardwareInfoPage()),
-                  // );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.indigo.shade600.withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
+                      style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 1,
+                            color: Colors.white,
+                            //color: Color(0xFFfacf5a),
+                          ),
                         ],
-                      ),
-                  child: ListTile(
-                    title: Text(
-                      'Hardware Info',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Text(
-                      'Check device and screen info',
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
-                    trailing: Icon(
-                      Icons.hardware,
-                      color: Color(0xFF303030),
-                      size: 40,
-                    ),
-                    tileColor: Color(0xFFF5F5F5),
-                    dense: false,
+                      ),                  ),
                   ),
+                  // subtitle: Text(
+                  //   'Pick a color to display',
+                  //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                  // ),
+                  trailing: Icon(
+                    Icons.colorize,
+                    color: Color(0xFFCCCC99 ),
+                    size: 40,
+                  ),
+                  tileColor: Color(0xFFF5F5F5),
+                  dense: false,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AboutPage()),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.purpleAccent..withOpacity(0.8),
-                        blurRadius: 22,
-                      ),
+            GestureDetector(
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MovementPage()),
+                // );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: ListTile(
+                  title: Center(
+                    child: Text(
+                      'Movement Test',
+                      style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 1,
+                            color: Colors.white,
+                            //color: Color(0xFFfacf5a),
+                          ),
                         ],
-                      ),
+                      ),                  ),
+                  ),
+                  // subtitle: Text(
+                  //   'Pick a color to display',
+                  //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                  // ),
+                  trailing: Icon(
+                    CupertinoIcons.tortoise_fill,
+                    color: Color(0xFFCCCC99 ),
+                    size: 40,
+                  ),
+                  tileColor: Color(0xFFF5F5F5),
+                  dense: false,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => HardwareInfoPage()),
+                // );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: Center(
                   child: ListTile(
-                    title: Text(
-                      'About',
-                      style: GoogleFonts.ubuntu(fontSize: 30, color: Colors.black, fontWeight: FontWeight.w500),
+                    title: Center(
+                      child: Text(
+                        'Hardware Info',
+                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1,
+                              color: Colors.white,
+                              //color: Color(0xFFfacf5a),
+                            ),
+                          ],
+                        ),                  ),
                     ),
-                    subtitle: Text(
-                      'About this app and how to use it',
-                      style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
-                    ),
+                    // subtitle: Text(
+                    //   'Check device and screen info',
+                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                    // ),
                     trailing: Icon(
-                      Icons.info,
-                      color: Color(0xFF303030),
+                      Icons.perm_device_info_rounded,
+                      color: Color(0xFFCCCC99 ),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -323,6 +400,80 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AboutPage()),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(6),
+                height: 75,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Color(0xff22385F),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 0.5,
+                      spreadRadius: 0.8,
+                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                    )
+                  ],
+                ),
+                child: Center(
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        'About',
+                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1,
+                              color: Colors.white,
+                              //color: Color(0xFFfacf5a),
+                            ),
+                          ],
+                        ),            ),
+                    ),
+                    // subtitle: Text(
+                    //   'About this app and how to use it',
+                    //   style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.black45 ),
+                    // ),
+                    trailing: Icon(
+                      Icons.info_outline,
+                      color: Color(0xFFCCCC99 ),
+                      size: 40,
+                    ),
+                    tileColor: Color(0xFFF5F5F5),
+                    dense: false,
+                  ),
+                ),
+              ),
+            ),
+            //footer text
+            SizedBox(
+              height: 30,
+            ),
+
+            new Column(
+              children: <Widget>[
+                new Container(
+                  child: new Text(
+                    'Made with ❤ footer text',
+                    style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.white38, fontWeight: FontWeight.w600,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 1,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
 
