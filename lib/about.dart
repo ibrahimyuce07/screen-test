@@ -1,168 +1,88 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
+import 'package:contactus/contactus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:screen_tester/main.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'main.dart';
 
 class AboutPage extends StatelessWidget {
-
-  var _count = 0;
-  @override
-  Widget build(BuildContext context)
-  {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Screen Test',
-      home: MyAboutPage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyAboutPage extends StatefulWidget {
-  const MyAboutPage({Key? key, required String title}) : super(key: key);
-
-  @override
-  _MyAboutPageState createState() => _MyAboutPageState();
-}
-
-class _MyAboutPageState extends State<MyAboutPage> {
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    var deviceData = <String, dynamic>{};
-
-    try {
-      if (Platform.isAndroid) {
-        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      }
-    } on PlatformException {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _deviceData = deviceData;
-    });
-  }
-//TODO: device refresh rate, gradient colors, color picker,
-  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
-    return <String, dynamic>{
-      'version.securityPatch': build.version.securityPatch,
-      'version.sdkInt': build.version.sdkInt,
-      'version.release': build.version.release,
-      'version.previewSdkInt': build.version.previewSdkInt,
-      'version.incremental': build.version.incremental,
-      'version.codename': build.version.codename,
-      'version.baseOS': build.version.baseOS,
-      'board': build.board,
-      'bootloader': build.bootloader,
-      'brand': build.brand,
-      'device': build.device,
-      'display': build.display,
-      'fingerprint': build.fingerprint,
-      'hardware': build.hardware,
-      'host': build.host,
-      'id': build.id,
-      'manufacturer': build.manufacturer,
-      'model': build.model,
-      'product': build.product,
-      'supported32BitAbis': build.supported32BitAbis,
-      'supported64BitAbis': build.supported64BitAbis,
-      'supportedAbis': build.supportedAbis,
-      'tags': build.tags,
-      'type': build.type,
-      'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId,
-      'systemFeatures': build.systemFeatures,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      appBar: AppBar(
-        title: Text('About Screen Test App'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //about text
-            FittedBox(
-              child: Text(
-                'This app is a test app for the Screen Tester plugin for Flutter.',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        bottomNavigationBar: ContactUsBottomAppBar(
+          companyName: 'stargazer',
+          textColor: Color(0xFFCCCC99).withAlpha(100),
+          backgroundColor: Color(0xff22385F),
+          email: 'kjdhsf@gmail.com',
+          textFont: 'Sail',
+        ),
+        backgroundColor: Color(0xFFCCCC99),
+        body: Column(
+          children: [
             SizedBox(
-              height: 20,
+              height: 50,
             ),
-            //about your device
-            FittedBox(
-              child: Text(
-                // 'Your device: ${_deviceData['display']} \n'
-                //     'Your device: ${_deviceData['type']} \n'
-                // // MediaQuery.of(context).devicePixelRatio
-                // 'Your device/pixel ratio: ${MediaQuery.of(context).devicePixelRatio} \n'
-                //     'Your device/pixel ratio: ${MediaQuery.of(context).size} \n'
-                //     'Your device/pixel ratio: ${MediaQuery.of(context).platformBrightness} \n'
-                //     //get screen width in mm
-                //                     'Your device/pixel ratio: ${MediaQuery.of(context).size.width.toInt()} \n'
-                //                     'Your device/pixel ratio: ${MediaQuery.of(context).size.width} \n'
-                //how many pixels in height
-                'Device Screen Width: ${(MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio).toInt()} px\n'
-                'Device Screen Height: ${(MediaQuery.of(context).size.height * MediaQuery.of(context).devicePixelRatio).toInt()} px\n'
-                //get device brand
-                'Device Brand: ${_deviceData['brand']} \n'
-                //get device model
-                'Device Model: ${_deviceData['model']} \n'
-                    'Your device/pixel ratio: ${MediaQuery.of(context).devicePixelRatio} \n'
-                //Screen to Body Ratio
-                'Screen to Body Ratio: ${MediaQuery.of(context).size.width / MediaQuery.of(context).size.height} \n'
+            ContactUs(
+              cardColor: Color(0xFFCCCC99).withAlpha(100),
+              textColor: Color(0xff22385F),
+              email: 'kjdhsf@gmail.com',
+              companyName: 'Screen Test App',
+              companyColor: Color(0xff22385F),
+              dividerThickness: 2,
+              website:
+                  'https://play.google.com/store/apps/dev?id=4702834448373247638',
+              // githubUserName: 'AbhishekDoshi26',
+              // linkedinURL:
+              // 'https://www.linkedin.com/in/abhishek-doshi-520983199/',
+              tagLine: 'stargazer',
+              taglineColor: Color(0xff22385F),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Center(
 
-                ,
-
-
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
               ),
             ),
-            //button to return MyApp page
-            RaisedButton(
-              color: Colors.blue,
-              child: Text('Return'),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+              child: Container(
+                  child: Center(
+                      child: Text(
 
-              onPressed: () {
+                'Screen Test App is a simple app that helps you test your Android '
+                'device for screen defects like dead pixels, burn-in, backlight bleeding,'
+                ' or color casts.',
+                        textAlign: TextAlign.center,
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xff22385F),
+                  ),
+
+                ),
+              ))),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            GestureDetector(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyApp()),
                 );
               },
-            ),
-           ],
-            ),
+              child: Container(
+                child: Icon(
+                  Icons.keyboard_return_rounded,
+                  size: 50,
+                  color: Color(0xff22385F),
+                ),
+                ),
+            )
+          ],
+        ),
       ),
     );
   }

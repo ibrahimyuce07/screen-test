@@ -2,6 +2,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:screen_tester/main.dart';
+
 import 'picker.dart';
 
 class ColorPickerPage extends StatelessWidget {
@@ -26,7 +27,6 @@ class ColorPickerState extends StatefulWidget {
 }
 
 class _ColorPickerStateState extends State<ColorPickerState> {
-  Color _color = Colors.blue;
   PickerColors _pickerColors = PickerColors();
 
 

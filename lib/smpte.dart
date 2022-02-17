@@ -53,9 +53,10 @@ class _MySMPTEPageState extends State<MySMPTEPage> {
               }
             },
           child: Image.asset(
-            'images/SMPTE_Color_Bars_16x9.png',
+            'images/SMPTE_Color_Bars_16x9 (2).png',
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
+            fit: BoxFit.fill,
           ),
         ),
     );

@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:fullscreen/fullscreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screen_tester/smpte.dart';
+
 import 'about.dart';
 import 'colorpicker.dart';
 import 'colors.dart';
@@ -35,8 +32,6 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
   late bool _fullscreen = true;
 
@@ -44,45 +39,52 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _fullscreen = true;
-    // Start full screen
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
+  }
+
+  void enterFullScreen(FullScreenMode fullScreenMode) async {
+    await FullScreen.enterFullScreen(fullScreenMode);
+  }
+
+  void exitFullScreen() async {
+    await FullScreen.exitFullScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0xFFCCCC99 ),
+          color: Color(0xFFCCCC99),
         ),
-
         child: ListView(
           scrollDirection: Axis.vertical,
           shrinkWrap: false,
           children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-                onDoubleTap: () {
-                  setState(() {
-                   if(_fullscreen){
-                     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-                     _fullscreen = false;
-                   }else{
-                     SystemChrome.setEnabledSystemUIOverlays([]);
-                     _fullscreen = true;
-                   }
-                  });
-                },
-                child: Icon(Icons.fullscreen, size: 45, color: Color(0xff22385F),)),
-          ],
-        ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (_fullscreen) {
+                          enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
+                          _fullscreen = false;
+                        } else {
+                          exitFullScreen();
+                          _fullscreen = true;
+                        }
+                      });
+                    },
+                    child: Icon(
+                      Icons.fullscreen,
+                      size: 45,
+                      color: Color(0xff22385F),
+                    )),
+              ],
+            ),
 
             SizedBox(height: 15),
-
-
 
             GestureDetector(
               onTap: () {
@@ -102,7 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -111,7 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Center(
                       child: Text(
                         'Solid Colors',
-                        style: GoogleFonts.ubuntu(fontSize: 26,  color: Color(0xFFCCCC99), fontWeight: FontWeight.w600,
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 26,
+                          color: Color(0xFFCCCC99),
+                          fontWeight: FontWeight.w600,
                           shadows: [
                             Shadow(
                               blurRadius: 1,
@@ -120,12 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                        ),
+                      ),
                     ),
-
                     trailing: Icon(
                       Icons.color_lens,
-                     color: Color(0xFFCCCC99 ),
+                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -152,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -161,7 +167,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Center(
                       child: Text(
                         'Gradient Colors',
-                        style: GoogleFonts.ubuntu(fontSize: 25,  color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 25,
+                          color: Color(0xFFCCCC99),
+                          fontWeight: FontWeight.w600,
                           shadows: [
                             Shadow(
                               blurRadius: 1,
@@ -169,7 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               //color: Color(0xFFfacf5a),
                             ),
                           ],
-                        ),                  ),
+                        ),
+                      ),
                     ),
                     // subtitle: Text(
                     //   'Generate random gradient color',
@@ -177,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     trailing: Icon(
                       Icons.gradient,
-                      color: Color(0xFFCCCC99 ),
+                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -204,7 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -213,7 +224,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Center(
                       child: Text(
                         'SMPTE Color Bars',
-                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 25,
+                          color: Color(0xFFCCCC99),
+                          fontWeight: FontWeight.w600,
                           shadows: [
                             Shadow(
                               blurRadius: 1,
@@ -221,7 +235,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               //color: Color(0xFFfacf5a),
                             ),
                           ],
-                        ),                 ),
+                        ),
+                      ),
                     ),
                     // subtitle: Text(
                     //   'Display SMPTE pattern',
@@ -229,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     trailing: Icon(
                       Icons.graphic_eq,
-                      color: Color(0xFFCCCC99 ),
+                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -256,7 +271,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -264,7 +280,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Center(
                     child: Text(
                       'Color Picker',
-                      style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 25,
+                        color: Color(0xFFCCCC99),
+                        fontWeight: FontWeight.w600,
                         shadows: [
                           Shadow(
                             blurRadius: 1,
@@ -272,7 +291,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             //color: Color(0xFFfacf5a),
                           ),
                         ],
-                      ),                  ),
+                      ),
+                    ),
                   ),
                   // subtitle: Text(
                   //   'Pick a color to display',
@@ -280,7 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   // ),
                   trailing: Icon(
                     Icons.colorize,
-                    color: Color(0xFFCCCC99 ),
+                    color: Color(0xFFCCCC99),
                     size: 40,
                   ),
                   tileColor: Color(0xFFF5F5F5),
@@ -291,10 +311,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
             GestureDetector(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => HardwareInfoPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HardwareInfoPage()),
+                );
               },
               child: Container(
                 margin: EdgeInsets.all(6),
@@ -307,7 +327,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -316,7 +337,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Center(
                       child: Text(
                         'Hardware Info',
-                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 25,
+                          color: Color(0xFFCCCC99),
+                          fontWeight: FontWeight.w600,
                           shadows: [
                             Shadow(
                               blurRadius: 1,
@@ -324,7 +348,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               //color: Color(0xFFfacf5a),
                             ),
                           ],
-                        ),                  ),
+                        ),
+                      ),
                     ),
                     // subtitle: Text(
                     //   'Check device and screen info',
@@ -332,7 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     trailing: Icon(
                       Icons.perm_device_info_rounded,
-                      color: Color(0xFFCCCC99 ),
+                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -359,7 +384,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black38,
                       blurRadius: 0.5,
                       spreadRadius: 0.8,
-                      offset: Offset(3.0, 3.0), // shadow direction: bottom right
+                      offset:
+                          Offset(3.0, 3.0), // shadow direction: bottom right
                     )
                   ],
                 ),
@@ -368,7 +394,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Center(
                       child: Text(
                         'About',
-                        style: GoogleFonts.ubuntu(fontSize: 25, color: Color(0xFFCCCC99 ), fontWeight: FontWeight.w600,
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 25,
+                          color: Color(0xFFCCCC99),
+                          fontWeight: FontWeight.w600,
                           shadows: [
                             Shadow(
                               blurRadius: 1,
@@ -376,7 +405,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               //color: Color(0xFFfacf5a),
                             ),
                           ],
-                        ),            ),
+                        ),
+                      ),
                     ),
                     // subtitle: Text(
                     //   'About this app and how to use it',
@@ -384,7 +414,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     trailing: Icon(
                       Icons.info_outline,
-                      color: Color(0xFFCCCC99 ),
+                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),
@@ -402,8 +432,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 new Container(
                   child: new Text(
-                    'yucedev',
-                    style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.white38, fontWeight: FontWeight.w600,
+                    'stargazer',
+                    style: GoogleFonts.ubuntu(
+                      fontSize: 14,
+                      color: Colors.white38,
+                      fontWeight: FontWeight.w600,
                       shadows: [
                         Shadow(
                           blurRadius: 1,

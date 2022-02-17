@@ -2,11 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:screen_tester/smpte.dart';
 
-import 'about.dart';
-import 'gradient.dart';
 import 'main.dart';
 
 class ColorsPage extends StatelessWidget {
@@ -47,97 +43,59 @@ class _MyColorsPageState extends State<MyColorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Container(
-           width: MediaQuery.of(context).size.width * 0.6,
-        child: Drawer(
-
-          child: Container(
-            color: _colorContainer.withOpacity(0.7),
-            child: ListView(
-              children: <Widget>[
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
-                        SizedBox(width: 10,),
-                        Text('Random',
-                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
-                      ],
-                    ),
-                    onTap: () {
-                      setRandomColor();
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
-                        SizedBox(width: 10,),
-                        Text('RGB',
-                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
-                      ],
-                    ),
-                    onTap: () {
-                      setPrimaryColors();
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.color_lens, color: Colors.black,size: 28,),
-                        SizedBox(width: 10,),
-                        Text('Black & White',
-                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
-                      ],
-                    ),
-                    onTap: () {
-                      setBlackAndWhite();
-                    },
-                  ),
-                ),
-                SizedBox(height: 440,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.keyboard_return_rounded, color: Colors.black,size: 28,),
-                        SizedBox(width: 10,),
-                        Text('Return',
-                          style: GoogleFonts.ubuntu(fontSize: 24,  color: Colors.black, fontWeight: FontWeight.w600,),),
-                      ],
-                    ),
-                    onTap: () {
-                      navigateToHome(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: new InkWell(
+              child: new GestureDetector(
                 onTap: () {
                   titleStateSelector();
+                },
+                onPanUpdate: (details) {
+                  if (details.delta.dy < 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  }
+                },
+                onLongPress: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Select a color profile:'),
+                          actions: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  child: Text('Random'),
+                                  onPressed: () {
+                                    setRandomColor();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('RGB'),
+                                  onPressed: () {
+                                    setPrimaryColors();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('B & W'),
+                                  onPressed: () {
+                                    setBlackAndWhite();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      });
                 },
                 child: Container(
                   color: _colorContainer,
@@ -210,5 +168,4 @@ class _MyColorsPageState extends State<MyColorsPage> {
         setRandomColor();
     }
   }
-
 }
