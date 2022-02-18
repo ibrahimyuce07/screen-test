@@ -33,8 +33,10 @@ class _ColorPickerStateState extends State<ColorPickerState> {
   @override
   void initState() {
     super.initState();
-    // Start full screen
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([
+      SystemUiOverlay.top,
+    ]);
+
 
     _pickerColors.screenPickerColor = Colors.blue;  // Material blue.
     _pickerColors.dialogPickerColor = Colors.red;   // Material red.
@@ -46,7 +48,7 @@ class _ColorPickerStateState extends State<ColorPickerState> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
-        if (details.delta.dx > 0) {
+        if (details.delta.dx > 20) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MyApp()),

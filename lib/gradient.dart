@@ -32,17 +32,13 @@ class _MyGradientPageState extends State<MyGradientPage> {
   @override
   void initState() {
     super.initState();
-    // Start full screen
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays([
+      SystemUiOverlay.top,
+    ]);
+
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // Stop full screen
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +53,7 @@ class _MyGradientPageState extends State<MyGradientPage> {
                   changeGradient();
                 },
                 onPanUpdate: (details) {
-                  if (details.delta.dx > 0) {
+                  if (details.delta.dx > 20) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MyApp()),

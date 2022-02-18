@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fullscreen/fullscreen.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screen_tester/smpte.dart';
 
@@ -33,22 +33,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late bool _fullscreen = true;
-
+  bool _isFullScreen = true;
   @override
   void initState() {
     super.initState();
-    _fullscreen = true;
-    enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
+
+    SystemChrome.setEnabledSystemUIOverlays([
+      SystemUiOverlay.top,
+    ]);
   }
 
-  void enterFullScreen(FullScreenMode fullScreenMode) async {
-    await FullScreen.enterFullScreen(fullScreenMode);
-  }
 
-  void exitFullScreen() async {
-    await FullScreen.exitFullScreen();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                        if (_fullscreen) {
-                          enterFullScreen(FullScreenMode.EMERSIVE_STICKY);
-                          _fullscreen = false;
+                        if (_isFullScreen) {
+                          //exit fullscreen
+                          SystemChrome.setEnabledSystemUIOverlays(
+                              [SystemUiOverlay.top]);
+                          _isFullScreen = false;
                         } else {
-                          exitFullScreen();
-                          _fullscreen = true;
+                          SystemChrome.setEnabledSystemUIOverlays([
+                            SystemUiOverlay.top,
+                          ]);
+                          _isFullScreen = true;
                         }
                       });
                     },
@@ -244,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     trailing: Icon(
                       Icons.graphic_eq,
-                      color: Color(0xFFCCCC99),
                       size: 40,
                     ),
                     tileColor: Color(0xFFF5F5F5),

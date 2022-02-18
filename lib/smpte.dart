@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:screen_tester/main.dart';
 
 
 class SMPTEPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Screen Test',
@@ -27,17 +25,8 @@ class _MySMPTEPageState extends State<MySMPTEPage> {
   @override
   void initState() {
     super.initState();
-    // Start full screen
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    super.initState();
   }
 
-  @override
-  void dispose() {
-    // Stop full screen
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +41,7 @@ class _MySMPTEPageState extends State<MySMPTEPage> {
                 );
               }
             },
-          child: Image.asset(
-            'images/SMPTE_Color_Bars_16x9 (2).png',
+          child: Image.asset('images/smpte_color_bars.webp',
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             fit: BoxFit.fill,

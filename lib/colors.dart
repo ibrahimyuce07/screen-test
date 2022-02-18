@@ -10,7 +10,6 @@ class ColorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Screen Test',
@@ -31,14 +30,21 @@ class _MyColorsPageState extends State<MyColorsPage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    //show dialog
+    WidgetsBinding.instance?.addPostFrameCallback(
+            (_) => _showStartDialog()
+    );
+
+    SystemChrome.setEnabledSystemUIOverlays([
+      SystemUiOverlay.top,
+    ]);
   }
 
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    super.dispose();
+
+  Future<void> _showStartDialog() async {
+    return showProfileDialog(context);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +59,7 @@ class _MyColorsPageState extends State<MyColorsPage> {
                   titleStateSelector();
                 },
                 onPanUpdate: (details) {
-                  if (details.delta.dy < 0) {
+                  if (details.delta.dx > 20) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MyApp()),
@@ -61,41 +67,7 @@ class _MyColorsPageState extends State<MyColorsPage> {
                   }
                 },
                 onLongPress: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Select a color profile:'),
-                          actions: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                  child: Text('Random'),
-                                  onPressed: () {
-                                    setRandomColor();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('RGB'),
-                                  onPressed: () {
-                                    setPrimaryColors();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('B & W'),
-                                  onPressed: () {
-                                    setBlackAndWhite();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      });
+                  showProfileDialog(context);
                 },
                 child: Container(
                   color: _colorContainer,
@@ -106,6 +78,64 @@ class _MyColorsPageState extends State<MyColorsPage> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showProfileDialog(BuildContext context) {
+    return showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        color: _colorContainer.withOpacity(0.1),
+                        child: AlertDialog(
+                          title: Text('Select a color profile:'),
+                          actions: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  child: Image(
+                                    image: AssetImage('images/colors_button.webp',
+                                    ),
+                                    fit: BoxFit.fill,
+                                    width: 70,
+                                    height: 50,
+                                  ),
+
+                                  onPressed: () {
+                                    setRandomColor();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Image(
+                                    image: AssetImage('images/rgb_button.webp'),
+                                    fit: BoxFit.fill,
+                                    width: 70,
+                                    height: 50,
+                                  ),
+                                  onPressed: () {
+                                    setPrimaryColors();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Image(
+                                    image: AssetImage('images/bw_button.webp'),
+                                    fit: BoxFit.fill,
+                                    width: 70,
+                                    height: 50,
+                                  ),
+                                  onPressed: () {
+                                    setBlackAndWhite();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    });
   }
 
   void navigateToHome(BuildContext context) {

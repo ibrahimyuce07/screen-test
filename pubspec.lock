@@ -57,13 +57,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -156,20 +149,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  font_awesome_flutter:
-    dependency: "direct main"
-    description:
-      name: font_awesome_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "9.2.0"
-  fullscreen:
-    dependency: "direct main"
-    description:
-      name: fullscreen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   google_fonts:
     dependency: "direct main"
     description:
