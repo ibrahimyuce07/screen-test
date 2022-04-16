@@ -32,9 +32,6 @@ class AboutPage extends StatelessWidget {
               dividerThickness: 2,
               website:
                   'https://play.google.com/store/apps/dev?id=4702834448373247638',
-              // githubUserName: 'AbhishekDoshi26',
-              // linkedinURL:
-              // 'https://www.linkedin.com/in/abhishek-doshi-520983199/',
               tagLine: 'stargazer',
               taglineColor: Color(0xff22385F),
             ),
